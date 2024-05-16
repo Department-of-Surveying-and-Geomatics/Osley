@@ -1,0 +1,68 @@
+import numpy as np
+import csv
+import matplotlib.pyplot as plt
+
+x = []
+y = []
+
+class Point:
+    """
+    A class representing a point in a 2-dimensional space.
+    """
+
+    def _init_(self, x, y):
+        """
+        Initialize the Point object with x and y coordinates.
+
+        Args:
+            x (float): The x-coordinate of the point.
+            y (float): The y-coordinate of the point.
+        """
+        self.x = float(x)  # Convert x to float
+        self.y = float(y)  # Convert y to float
+
+    def translate(self, dx, dy):
+        """
+        Move the point by a given displacement in the x and y directions.
+
+        Args:
+            dx (float): The displacement in the x direction.
+            dy (float): The displacement in the y direction.
+        """
+        self.x += dx
+        self.y += dy
+
+# Importing X and Y coordinates from a text file
+with open('coordinate_file.csv', 'r') as csvfile:
+    plots = csv.reader(csvfile, delimiter=',')
+    next(plots)  # Skip the header row
+    for row in plots:
+        x.append(float(row[0]))  # Convert x to float directly
+        y.append(float(row[1]))  # Convert y to float directly
+
+# Plotting the original coordinates on a scatterplot
+plt.figure(figsize=(8, 6))  # Set figure size
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Original Plot', color='black')
+plt.scatter(x, y, c='green', marker='o', s=80)
+
+# Translating the points
+dx = 5  # Translation in x direction
+dy = 3  # Translation in y direction
+for i in range(len(x)):
+    point = Point(x[i], y[i])
+    point.translate(dx, dy)
+    x[i] = point.x
+    y[i] = point.y
+
+# Plotting the translated coordinates in a different color
+plt.figure(figsize=(8, 6))  # Set figure size
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Translated Plot', color='blue')
+plt.scatter(x, y, c='brown', marker='h', s=80)
+
+plt.tight_layout()  # Adjust layout to fit the plot
+
+plt.show()
